@@ -1,0 +1,29 @@
+*.apk
+*.ap_
+*.jar
+*.class
+ 
+bin/
+gen/
+classes/
+gen-external-apklibs/
+ 
+target
+ 
+local.properties
+ 
+# Eclipse project files
+.classpath
+.project
+.metadata
+.settings
+ 
+# IntelliJ files
+.idea
+*.iml
+ 
+*.bak
+ 
+# gradle directory
+.gradle
+build/
