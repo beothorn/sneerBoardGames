@@ -2,6 +2,7 @@ package com.github.beothorn;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class JogodegoActivity extends Activity
@@ -11,7 +12,9 @@ public class JogodegoActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        WebView mWebView=(WebView)findViewById(R.id.webView);
-        mWebView.loadUrl("file:///android_asset/index.html");
+        WebView myWebView=(WebView)findViewById(R.id.webView);
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        myWebView.loadUrl("file:///android_asset/index.html");
     }
 }
