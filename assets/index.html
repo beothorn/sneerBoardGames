@@ -1,7 +1,19 @@
-<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>
+<canvas id="myCanvas" ontouchstart="touchstartCanvas(event);" width="100%" height="100%" style="margin:0px;padding:0px;"></canvas>
 <script>
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.font = "30px Arial";
-ctx.fillText("Hello World",10,50);
+var canvas = document.getElementById("myCanvas");
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+var context = canvas.getContext("2d");
+
+var imageObj = new Image();
+
+imageObj.src = 'piece.png';
+
+function touchstartCanvas(e) {
+    var X = e.touches[0].clientX;
+    var Y = e.touches[0].clientY;
+    context.drawImage(imageObj, X-(imageObj.width/2), Y-(imageObj.height/2));
+    e.preventDefault();
+}
+
 </script>
