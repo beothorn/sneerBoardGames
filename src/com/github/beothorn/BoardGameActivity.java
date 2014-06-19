@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import com.google.gson.Gson;
 import rx.functions.Action1;
-import sneerteam.snapi.*;
+import sneerteam.snapi.Cloud;
+import sneerteam.snapi.Contact;
+import sneerteam.snapi.ContactPicker;
 
 import static sneerteam.snapi.CloudPath.ME;
 
-public class JogodegoActivity extends Activity
+public class BoardGameActivity extends Activity
 {
     private Contact friend;
+    Gson gson = new Gson();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -27,20 +31,18 @@ public class JogodegoActivity extends Activity
 
         myWebView.addJavascriptInterface(new Object(){
             @JavascriptInterface
-            public void printRemote(String message) {
-                cloud.path("games", "go", friend.publicKey()).pub(message);
+            public void play(String playJson) {
+                Play play = gson.fromJson(playJson, Play.class);
+                cloud.path("games", "board", friend.publicKey()).pub(play);
             }
-        },"Jogodego");
+        },"Remote");
 
         ContactPicker.pickContact(this).subscribe(new Action1<Contact>() {@Override public void call(Contact contact) {
             friend = contact;
 
-            cloud.path(friend.publicKey(), "games", "go", ME).value().cast(String.class).subscribe(new Action1<String>() {
-                @Override
-                public void call(final String value) {
-                    myWebView.loadUrl("javascript:testEcho(" + value + ")");
-                }
-            });
+            cloud.path(friend.publicKey(), "games", "board", ME).value().cast(Play.class).subscribe(new Action1<Play>(){@Override public void call(final Play play) {
+                    myWebView.loadUrl("javascript:play(" + gson.toJson(play) + ")");
+            }});
         }});
     }
 }

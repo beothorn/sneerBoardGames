@@ -16,13 +16,13 @@ function touchstartCanvas(e) {
     var X = e.touches[0].clientX;
     var Y = e.touches[0].clientY;
     context.drawImage(imageObj, X-(imageObj.width/2), Y-(imageObj.height/2));
-    Jogodego.printRemote(X+','+Y);
+    Remote.play({line:X,column:Y});
     e.preventDefault();
 }
 
-function testEcho(x,y){
+function play(play){
     var c = document.getElementById("myCanvas");
-    context.drawImage(imageObj, x, y);
+    context.drawImage(imageObj, play.line, play.column);
 }
 
 </script>

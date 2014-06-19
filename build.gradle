@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     libs 'me.sneer:sneer-api:0.1.0-SNAPSHOT'
+    libs 'com.google.code.gson:gson:2.2.4'
 }
 
 task copyLibs(type: Copy) {
