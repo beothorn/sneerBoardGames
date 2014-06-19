@@ -1,0 +1,22 @@
+configurations {
+    libs
+    compile.extendsFrom libs
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+dependencies {
+    libs 'me.sneer:sneer-api:0.1.0-SNAPSHOT'
+}
+
+task copyLibs(type: Copy) {
+    into "libs"
+    from configurations.libs
+}
+
+defaultTasks 'copyLibs'
