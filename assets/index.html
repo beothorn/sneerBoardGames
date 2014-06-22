@@ -1,31 +1,8 @@
 <html>
 <body bgcolor="#E6E6FA" style="margin:0px;padding:0px;">
 
-<canvas id="myCanvas" ontouchstart="touchstartCanvas(event);" ></canvas>
-<script>
-var canvas = document.getElementById("myCanvas");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-var context = canvas.getContext("2d");
+<canvas id="myCanvas"></canvas>
 
-var imageObj = new Image();
-
-imageObj.src = 'piece.png';
-
-function touchstartCanvas(e) {
-    var X = e.touches[0].clientX;
-    var Y = e.touches[0].clientY;
-    context.drawImage(imageObj, X-(imageObj.width/2), Y-(imageObj.height/2));
-    Remote.play({line:X,column:Y});
-    e.preventDefault();
-}
-
-function play(play){
-    var c = document.getElementById("myCanvas");
-    context.drawImage(imageObj, play.line, play.column);
-}
-
-</script>
-
+<script src="js/Game.js"></script>
 </body>
 </html>

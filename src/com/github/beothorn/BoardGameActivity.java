@@ -25,17 +25,19 @@ public class BoardGameActivity extends Activity
         final WebView myWebView=(WebView)findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        myWebView.loadUrl("file:///android_asset/index.html");
 
         final Cloud cloud = Cloud.onAndroidMainThread(this);
 
         myWebView.addJavascriptInterface(new Object(){
             @JavascriptInterface
             public void play(String playJson) {
+                if(playJson.equals("undefined")) return;
                 Play play = gson.fromJson(playJson, Play.class);
                 cloud.path("games", "board", friend.publicKey()).pub(play);
             }
         },"Remote");
+
+        myWebView.loadUrl("file:///android_asset/index.html");
 
         ContactPicker.pickContact(this).subscribe(new Action1<Contact>() {@Override public void call(Contact contact) {
             friend = contact;
