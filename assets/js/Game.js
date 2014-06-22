@@ -1,9 +1,15 @@
+
+function Play(line,column){
+    this.line = line;
+    this.column = column;
+}
+
 if(typeof Remote === "undefined"){
     Remote = {
         play : function(p){
             console.log(p);
             var remotePlay = JSON.parse(p);
-            play({line: (remotePlay.line + 50), column: ((remotePlay.column + 50)) });
+            play(new Play(remotePlay.line + 50, remotePlay.column + 50));
         }
     };
 }
@@ -23,7 +29,7 @@ canvas.width = window.innerWidth;
 function doPlay(coords){
     var x = coords.x;
     var y = coords.y;
-    var myPlay = {line: (x-(imageObj.width/2)) ,column: (y-(imageObj.height/2)) };
+    var myPlay = new Play(x-(imageObj.width/2) ,y-(imageObj.height/2));
     Remote.play(JSON.stringify(myPlay));
     play(myPlay);
 }
