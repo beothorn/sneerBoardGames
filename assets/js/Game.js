@@ -2,7 +2,17 @@ if(typeof Remote === "undefined"){
     Remote = {
         play : function(p){
             console.log(p);
+            var remotePlay = JSON.parse(p);
+            play({line: (remotePlay.line + 50), column: ((remotePlay.column + 50)) });
         }
+    };
+}
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
     };
 }
 
@@ -10,17 +20,29 @@ var canvas = document.getElementById("myCanvas");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-function myFunc(e) {
-    var X = e.touches[0].clientX;
-    var Y = e.touches[0].clientY;
-    context.drawImage(imageObj, X-(imageObj.width/2), Y-(imageObj.height/2));
-    var play = {line:X,column:Y};
-    Remote.play(JSON.stringify(play));
-    e.preventDefault();
+function doPlay(coords){
+    var x = coords.x;
+    var y = coords.y;
+    var myPlay = {line: (x-(imageObj.width/2)) ,column: (y-(imageObj.height/2)) };
+    Remote.play(JSON.stringify(myPlay));
+    play(myPlay);
 }
 
-canvas.addEventListener("touchstart", myFunc, false);
-canvas.addEventListener("mousedown", myFunc, false);
+function touch(evt) {
+    var x = evt.touches[0].clientX;
+    var y = evt.touches[0].clientY;
+    doPlay({x:x,y:y})
+    evt.preventDefault();
+}
+
+function mouse(evt) {
+    var pos = getMousePos(canvas, evt)
+    doPlay(pos);
+    evt.preventDefault();
+}
+
+canvas.addEventListener("touchstart", touch, false);
+canvas.addEventListener("mousedown", mouse, false);
 
 var context = canvas.getContext("2d");
 
@@ -29,6 +51,5 @@ imageObj.src = 'piece.png';
 
 
 function play(play){
-    var c = document.getElementById("myCanvas");
     context.drawImage(imageObj, play.line, play.column);
 }
