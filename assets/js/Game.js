@@ -29,7 +29,7 @@ canvas.width = window.innerWidth;
 function doPlay(coords){
     var x = coords.x;
     var y = coords.y;
-    var myPlay = new Play(x-(Go.size/2) ,y-(Go.size/2));
+    var myPlay = new Play(x-Math.round(Go.size/2) ,y-Math.round(Go.size/2));
     Remote.play(JSON.stringify(myPlay));
     play(myPlay);
 }
