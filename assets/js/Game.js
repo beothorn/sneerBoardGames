@@ -23,8 +23,8 @@ function getMousePos(canvas, evt) {
 }
 
 var canvas = document.getElementById("myCanvas");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+canvas.height = Go.board[0].length * Go.size;
+canvas.width = Go.board.length * Go.size;
 
 function doPlay(coords){
     var x = coords.x;
