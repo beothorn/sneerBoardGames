@@ -29,7 +29,7 @@ canvas.width = window.innerWidth;
 function doPlay(coords){
     var x = coords.x;
     var y = coords.y;
-    var myPlay = new Play(x-(imageObj.width/2) ,y-(imageObj.height/2));
+    var myPlay = new Play(x-(Go.size/2) ,y-(Go.size/2));
     Remote.play(JSON.stringify(myPlay));
     play(myPlay);
 }
@@ -53,9 +53,24 @@ canvas.addEventListener("mousedown", mouse, false);
 var context = canvas.getContext("2d");
 
 var imageObj = new Image();
-imageObj.src = 'piece.png';
+imageObj.src = "img/xxhdpi/pieces.png";
+
+var board = new Image();
+board.src = Go.img;
+board.onload = function(){
+    console.log(Go.board.length);
+    for(var l=0; l<Go.board.length; l++){
+        for(var c=0; c<Go.board[l].length; c++){
+            context.drawImage(board,
+                Go.board[l][c] * Go.size, 0, Go.size, Go.size,
+                c * Go.size, l * Go.size, Go.size, Go.size
+            );
+        }
+    }
+}
+
 
 
 function play(play){
-    context.drawImage(imageObj, play.line, play.column);
+    context.drawImage(imageObj, 0, 0, Go.size, Go.size, play.line, play.column, Go.size, Go.size);
 }
